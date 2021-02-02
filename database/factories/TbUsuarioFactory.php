@@ -1,4 +1,5 @@
 <?php
+# https://github.com/fzaninotto/Faker#basic-usage
 # https://laravel.com/docs/8.x/database-testing
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 

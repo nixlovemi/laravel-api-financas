@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
+            TbBaseDespesaSeeder::class,
             TbUsuarioSeeder::class,
             TbMenuSeeder::class,
             TbContaSeeder::class,
