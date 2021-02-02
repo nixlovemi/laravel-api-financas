@@ -12,4 +12,9 @@ class TbConta extends Model
     public $timestamps    = false;
     protected $table      = 'tb_conta';
     protected $primaryKey = 'con_id';
+
+    public function lancamento()
+    {
+        return $this->hasMany('App\Models\TbLancamento', 'lan_conta', 'con_id');
+    }
 }

@@ -12,7 +12,7 @@ $factory->define(TbMetaDespesa::class, function (Faker $faker) {
         "mdp_despesa" => function() {
             return TbBaseDespesa::all()->random();
         },
-        "mdp_mes"     => $faker->month(),
+        "mdp_mes"     => (int)$faker->month(),
         "mdp_ano"     => $faker->year(),
         "mdp_valor"   => $faker->randomFloat(2),
     ];

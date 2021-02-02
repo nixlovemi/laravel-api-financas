@@ -22,13 +22,17 @@ class CreateTbMetaDespesasTable extends Migration
                 $table->char('mdp_mes', 2);
                 $table->char('mdp_ano', 4);
                 $table->double('mdp_valor', 12, 2);
+
+                // TODO Financas: create FK
+                /*$table->foreign('mdp_despesa')
+                        ->references('bdp_id')
+                        ->on('tb_base_despesa')
+                        ->onUpdate('cascade')
+                        ->onDelete('restrict');*/
             });
 
             DB::statement('
                 ALTER TABLE `tb_meta_despesa` ADD UNIQUE KEY `idx_despesa_mes_ano` (`mdp_despesa`,`mdp_mes`,`mdp_ano`);
-            ');
-            DB::statement('
-            ALTER TABLE `tb_meta_despesa` ADD CONSTRAINT `fk_mdp_despesa` FOREIGN KEY (`mdp_despesa`) REFERENCES `tb_base_despesa` (`bdp_id`) ON UPDATE CASCADE;
             ');
         });
     }
