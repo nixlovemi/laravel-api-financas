@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             TbUsuarioSeeder::class,
             TbMenuSeeder::class,
             TbContaSeeder::class,
+            TbMetaDespesaSeeder::class,
         ]);
     }
 }

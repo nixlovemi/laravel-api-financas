@@ -8,7 +8,7 @@ use Faker\Generator as Faker;
 
 $factory->define(TbBaseDespesa::class, function (Faker $faker) {
     return [
-        "bdp_descricao"   => ucfirst($faker->word),
+        "bdp_descricao"   => ucfirst($faker->unique()->word()),
         "bdp_tipo"        => $faker->randomElement(['I', 'F', 'V']),
         "bdp_contabiliza" => 1,
         "bdp_ativo"       => 1,
