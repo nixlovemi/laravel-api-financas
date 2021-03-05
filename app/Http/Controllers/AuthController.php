@@ -1,9 +1,10 @@
 <?php
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use App\Models\Users;
-use Validator;
+use Illuminate\Support\Facades\Auth;
+use App\Models\TbUsuario;
 
 class AuthController extends Controller
 {
@@ -23,7 +24,7 @@ class AuthController extends Controller
 
         $response = lpApiResponse(
             false,
-            'Logged user data returned successfully!',
+            'Dados do usuário logado!',
             [
                 "user" => $retUser->getAttributes()
             ]
@@ -40,27 +41,23 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
-        /*$validator = Validator::make($request->all(), [
-            'email'    => Users::NEW_USER_RULES['email'] ?? ['required', 'string', 'min:2'],
-            'password' => ['required', 'string', 'min:8'],
-        ]);
-
-        if ($validator->fails())
-        {
-            $response = lpApiResponse(true, 'Error logging in!', [$validator->messages()]);
-            return response()->json($response, Response::HTTP_OK);
+        // dd(TbUsuario::where('usu_ativo', 1)->get());
+        $loginError = true;
+        $User       = TbUsuario::where('usu_login', $request->login)
+                        ->where('usu_senha', md5($request->password))
+                        ->where('usu_ativo', 1)
+                        ->first();
+        if($User !== null){
+            $token      = Auth::login($User);
+            $loginError = $token === false;
         }
-        else
-        {
-            $credentials = $request->only(['email', 'password']);
-            if (!$token = auth()->attempt($credentials))
-            {
-                $response = lpApiResponse(true, 'Invalid Credentials.');
-                return response()->json($response, Response::HTTP_UNAUTHORIZED);
-            }
-            
-            return $this->respondWithToken($token);
-        }*/
+
+        if ($loginError) {
+            $response = lpApiResponse(true, 'Credenciais inválidas');
+            return response()->json($response, Response::HTTP_UNAUTHORIZED);
+        }
+
+        return $this->respondWithToken($token);
     }
 
     /**
@@ -71,7 +68,7 @@ class AuthController extends Controller
     public function logout()
     {
         auth()->logout();
-        $response = lpApiResponse(false, 'Successfully logged out!');
+        $response = lpApiResponse(false, 'Logout efetuado com sucesso!');
         return response()->json($response, Response::HTTP_OK);
     }
 
@@ -85,7 +82,7 @@ class AuthController extends Controller
     {
         $response = lpApiResponse(
             false,
-            'Successfully logged in!',
+            'Usuário logado com sucesso!',
             [
                 'access_token' => $token,
                 'token_type' => 'bearer',
@@ -94,5 +91,20 @@ class AuthController extends Controller
         );
 
         return response()->json($response, Response::HTTP_OK);
+    }
+
+    /**
+     * Returns the message when user is unauthenticated
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function unauthenticated()
+    {
+        $response = lpApiResponse(
+            true,
+            'Por favor, faça o login antes de usar essa rota'
+        );
+
+        return response()->json($response, Response::HTTP_UNAUTHORIZED);
     }
 }

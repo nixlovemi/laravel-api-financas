@@ -79,7 +79,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\Models\Users::class,
+            'model' => App\Models\TbUsuario::class,
         ],
 
         // 'users' => [

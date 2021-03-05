@@ -48,12 +48,12 @@ class Handler extends ExceptionHandler
     {
         if (strpos(get_class($exception), 'MethodNotAllowedHttpException') !== false) 
         {
-            $return = lpExceptionMsgHandler::controllerExceptionHandler($exception, "This method is not available for this route!");
+            $return = lpExceptionMsgHandler::controllerExceptionHandler($exception, "Esse método não está disponível para essa rota!");
             return response()->json($return, Response::HTTP_METHOD_NOT_ALLOWED);
         }
         else if (strpos(get_class($exception), 'Auth\AuthenticationException') !== false)
         {
-            $return = lpExceptionMsgHandler::controllerExceptionHandler($exception, "Authentication error!");
+            $return = lpExceptionMsgHandler::controllerExceptionHandler($exception, "Erro na autenticação do usuário!");
             return response()->json($return, Response::HTTP_UNAUTHORIZED);
         }
         
